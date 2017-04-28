@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>index</title>
+  </head>
+  <body>
+    {% for a in current_user %}
+    <h1>Hello, {{ a.name }}!</h1>
+    {% endfor %}
+    <form id="a" action="{% url 'appos:apout' %}" method='POST'>
+      {% csrf_token %}
+      <input type='submit' name='logout' value='Log-Out'>
+    </form>
+    <h3>Here are your appointments for today:</h3>
+    <table>
+      <tr><th>Task</th><th>Time</th><th>Status</th><th>Action</th></tr>
+      {% for b in curr_date_appo_log %}
+      <tr><td>{{ b.task }}</td><td>{{ b.time }}</td><td>{{ b.status }}</td><td>
+        <form class="" action="appo/{{ b.id }}/{{ request.session.id }}" method="post">
+          {% csrf_token %}
+          <input type='submit' name='edit' value='Edit'>
+        </form>
+      </td>
+      <td>
+        <form class="" action="delete/{{ b.id }}" method="post">
+          {% csrf_token %}
+          <input type='submit' name='delete' value='Delete'>
+        </form>
+      </td></tr>
+      {% endfor %}
+    </table>
+    <h3>Your other appointments:</h3>
+    <table>
+      <tr><th>Task</th><th>Date</th><th>Time</th><th>Action</th></tr>
+      {% for c in other_dates_appo_log %}
+      <tr><td>{{ c.task }}</td><td>{{ c.date }}</td><td>{{ c.time }}</td></tr>
+      {% endfor %}
+    </table>
+    {% for error in messages %}
+    <h1>{{ error }}</h1>
+    {% endfor %}
+    <table>
+      <form id="a" action="/appointments/add/{{ request.session.id }}" method='POST'>
+        {% csrf_token %}
+        <tr><td>Time: <input type='time' name='time'></td></tr>
+        <tr><td>Task: <input type='text' name='task'></td></tr>
+        <tr><td>Date: <input type='date' name='date'></td></tr>
+        <tr><td><input type='submit' name='add' value='Add'></td></tr>
+      </form>
+    </table>
+  </body>
+</html>

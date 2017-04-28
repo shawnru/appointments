@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>index</title>
+    <style>
+    #regtable{
+      display: inline;
+    }
+    #logtable{
+      display: inline;
+    }
+    </style>
+  </head>
+  <body>
+    {% for error in messages %}
+    <p>{{ error }}</p>
+    {% endfor %}
+    {% for a in all_users %}
+    <p>{{ a.username }} {{ a.name }}</p>
+    {% endfor %}
+    <table id='regtable'>
+        <form id="a" action="{% url 'logreg:lrreg' %}" method='POST'>
+          {% csrf_token %}
+          <tr><td>Name:</td><td><input type='text' name='name'></td></tr>
+          <tr><td>Email:</td><td><input type='text' name='email'></td></tr>
+          <tr><td>Password:</td><td><input type='password' name='password' value='password1'></td></tr>
+          <tr><td>Confirm password:</td><td><input type='password' name='confirmpw' value='password1'></td></tr>
+          <tr><td>Date of Birth:</td><td><input type='date' name='birthdate'></td></tr>
+          <tr><td><input type='submit' name='register' value='Register'></td></tr>
+        </form>
+    </table>
+    <table id='logtable'>
+      <form id="ab" action="{% url 'logreg:lrlog' %}" method='POST'>
+        {% csrf_token %}
+      <tr><td>Email:</td><td><input type='text' name='email'></td></tr>
+      <tr><td>Password:</td><td><input type='password' name='password' value='password1'></td></tr>
+        <tr><td><input type='submit' name='login' value='Log In'></td></tr>
+      </form>
+    </table>
+  </body>
+</html>
